@@ -1,188 +1,419 @@
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    const MaterialApp(debugShowCheckedModeBanner: false, home: MyProfile()),
-  );
+runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+const MyApp({super.key});
+
+@override
+Widget build(BuildContext context) {
+return MaterialApp(
+debugShowCheckedModeBanner: false,
+home: const MyProfile(),
+);
+}
 }
 
 class MyProfile extends StatelessWidget {
-  const MyProfile({super.key});
+const MyProfile({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7F5F7),
-
-      // -------------------------
-      // APP BAR
-      // -------------------------
-      appBar: AppBar(
-        title: const Text(
-          "My Profile",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        elevation: 2,
-      ),
-
-      // -------------------------
-      // BODY
-      // -------------------------
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // -------------------------
-            // PROFILE IMAGE
-            // -------------------------
-            Center(
-              child: Stack(
-                children: [
-                  // White circular background
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-
-                    child: ClipOval(
-                      child: Image.network(
-                        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-
-                  // Green check mark
-                  Positioned(
-                    right: 5,
-                    bottom: 10,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.transparent,
-                      ),
-                      child: const Icon(
-                        Icons.check,
-                        color: Colors.green,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            // -------------------------
-            // DIVIDER
-            // -------------------------
-            const Divider(color: Colors.black, thickness: 1),
-
-            const SizedBox(height: 5),
-
-            // -------------------------
-            // NAME
-            // -------------------------
-            const Text(
-              "Name",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-
-            const SizedBox(height: 5),
-
-            const Text(
-              "Diluka",
-              style: TextStyle(fontSize: 14, color: Colors.black),
-            ),
-
-            const SizedBox(height: 25),
-
-            // -------------------------
-            // EMAIL
-            // -------------------------
-            const Text(
-              "Email",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-
-            const SizedBox(height: 7),
-
-            Row(
-              children: const [
-                Icon(Icons.email, color: Colors.black, size: 16),
-
-                SizedBox(width: 8),
-
-                Text(
-                  "diluka.w@nsbm.ac.lk",
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 25),
-
-            // -------------------------
-            // POINTS
-            // -------------------------
-            const Text(
-              "Points",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-
-            const SizedBox(height: 7),
-
-            Row(
-              children: const [
-                Icon(Icons.star, color: Colors.black, size: 18),
-
-                SizedBox(width: 8),
-
-                Text("0", style: TextStyle(fontSize: 14, color: Colors.black)),
-              ],
-            ),
-          ],
-        ),
-      ),
-
-      // -------------------------
-      // FLOATING ACTION BUTTON
-      // -------------------------
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your action here
-        },
-
-        backgroundColor: Colors.black,
-
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
+// Popup function
+void showPopup(
+BuildContext context,
+String title,
+String value,
+IconData icon,
+Color color,
+) {
+showDialog(
+context: context,
+builder: (context) {
+return AlertDialog(
+shape: RoundedRectangleBorder(
+borderRadius: BorderRadius.circular(18),
+),
+title: Row(
+children: [
+Icon(
+icon,
+color: color,
+size: 28,
+),
+const SizedBox(width: 10),
+Text(title),
+],
+),
+content: Text(
+value,
+style: const TextStyle(
+fontSize: 16,
+),
+),
+actions: [
+TextButton(
+onPressed: () {
+Navigator.pop(context);
+},
+child: const Text("Close"),
+),
+],
+);
+},
+);
 }
+
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+body: Container(
+decoration: const BoxDecoration(
+gradient: LinearGradient(
+begin: Alignment.topCenter,
+end: Alignment.bottomCenter,
+colors: [
+Color(0xFFE8E0F7),
+Color(0xFFF7F5FA),
+Color(0xFFFFEEF4),
+],
+),
+),
+child: SafeArea(
+child: Column(
+children: [
+
+// TOP BAR
+Container(
+height: 60,
+width: double.infinity,
+decoration: const BoxDecoration(
+color: Colors.black,
+borderRadius: BorderRadius.only(
+bottomLeft: Radius.circular(18),
+bottomRight: Radius.circular(18),
+),
+),
+child: const Center(
+child: Text(
+"My Profile",
+style: TextStyle(
+color: Colors.white,
+fontSize: 20,
+fontWeight: FontWeight.bold,
+),
+),
+),
+),
+
+// PROFILE CONTENT
+Expanded(
+child: SingleChildScrollView(
+padding: const EdgeInsets.all(20),
+child: Column(
+children: [
+
+const SizedBox(height: 20),
+
+// PROFILE IMAGE
+Container(
+width: 110,
+height: 110,
+padding: const EdgeInsets.all(4),
+decoration: BoxDecoration(
+shape: BoxShape.circle,
+gradient: const LinearGradient(
+colors: [
+Color(0xFF7048B8),
+Color(0xFFFF5D9E),
+],
+),
+boxShadow: [
+BoxShadow(
+color: Colors.black.withOpacity(0.15),
+blurRadius: 10,
+offset: const Offset(0, 4),
+),
+],
+),
+child: ClipOval(
+child: Image.network(
+"https://i.pravatar.cc/300?img=12",
+fit: BoxFit.cover,
+),
+),
+),
+
+const SizedBox(height: 20),
+
+// NAME
+const Text(
+"Alex Johnson",
+style: TextStyle(
+fontSize: 23,
+fontWeight: FontWeight.bold,
+color: Color(0xFF25213B),
+),
+),
+
+const SizedBox(height: 20),
+
+const Divider(
+color: Colors.black54,
+),
+
+const SizedBox(height: 15),
+
+// NAME
+profileItem(
+icon: Icons.person,
+iconColor: Colors.deepPurple,
+title: "Name",
+value: "Alex Johnson",
+onTap: () {
+showPopup(
+context,
+"Name",
+"Alex Johnson",
+Icons.person,
+Colors.deepPurple,
+);
+},
+),
+
+const SizedBox(height: 12),
+
+// EMAIL
+profileItem(
+icon: Icons.email,
+iconColor: Colors.pink,
+title: "Email",
+value: "alex.johnson@gmail.com",
+onTap: () {
+showPopup(
+context,
+"Email",
+"alex.johnson@gmail.com",
+Icons.email,
+Colors.pink,
+);
+},
+),
+
+const SizedBox(height: 12),
+
+// TELEPHONE
+profileItem(
+icon: Icons.phone,
+iconColor: Colors.green,
+title: "Telephone",
+value: "+94 77 123 4567",
+onTap: () {
+showPopup(
+context,
+"Telephone",
+"+94 77 123 4567",
+Icons.phone,
+Colors.green,
+);
+},
+),
+
+const SizedBox(height: 12),
+
+// AGE
+profileItem(
+icon: Icons.cake,
+iconColor: Colors.orange,
+title: "Age",
+value: "25 Years",
+onTap: () {
+showPopup(
+context,
+"Age",
+"25 Years",
+Icons.cake,
+Colors.orange,
+);
+},
+),
+
+const SizedBox(height: 12),
+
+// JOB
+profileItem(
+icon: Icons.work,
+iconColor: Colors.blue,
+title: "Job",
+value: "Software Developer",
+onTap: () {
+showPopup(
+context,
+"Job",
+"Software Developer",
+Icons.work,
+Colors.blue,
+);
+},
+),
+
+const SizedBox(height: 12),
+
+// COUNTRY
+profileItem(
+icon: Icons.public,
+iconColor: Colors.teal,
+title: "Country",
+value: "Sri Lanka",
+onTap: () {
+showPopup(
+context,
+"Country",
+"Sri Lanka",
+Icons.public,
+Colors.teal,
+);
+},
+),
+
+const SizedBox(height: 80),
+],
+),
+),
+),
+],
+),
+),
+),
+
+// + BUTTON
+floatingActionButton: FloatingActionButton(
+backgroundColor: Colors.deepPurple,
+onPressed: () {
+showDialog(
+context: context,
+builder: (context) {
+return AlertDialog(
+shape: RoundedRectangleBorder(
+borderRadius: BorderRadius.circular(18),
+),
+title: const Row(
+children: [
+Icon(
+Icons.add,
+color: Colors.deepPurple,
+),
+SizedBox(width: 10),
+Text("Add"),
+],
+),
+content: const Text(
+"You clicked the + icon.",
+style: TextStyle(
+fontSize: 16,
+),
+),
+actions: [
+TextButton(
+onPressed: () {
+Navigator.pop(context);
+},
+child: const Text("Close"),
+),
+],
+);
+},
+);
+},
+child: const Icon(
+Icons.add,
+color: Colors.white,
+size: 30,
+),
+),
+);
+}
+}
+
+
+// PROFILE ITEM WIDGET
+Widget profileItem({
+required IconData icon,
+required Color iconColor,
+required String title,
+required String value,
+required VoidCallback onTap,
+}) {
+return Container(
+width: double.infinity,
+decoration: BoxDecoration(
+color: Colors.white,
+borderRadius: BorderRadius.circular(16),
+boxShadow: [
+BoxShadow(
+color: Colors.black.withOpacity(0.07),
+blurRadius: 7,
+offset: const Offset(0, 3),
+),
+],
+),
+child: Row(
+children: [
+
+// ICON
+GestureDetector(
+onTap: onTap,
+child: Container(
+width: 55,
+height: 65,
+decoration: BoxDecoration(
+color: iconColor.withOpacity(0.12),
+borderRadius: const BorderRadius.only(
+topLeft: Radius.circular(16),
+bottomLeft: Radius.circular(16),
+),
+),
+child: Icon(
+icon,
+color: iconColor,
+size: 25,
+),
+),
+),
+
+const SizedBox(width: 15),
+
+// TEXT
+Expanded(
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+
+Text(
+title,
+style: const TextStyle(
+fontSize: 12,
+color: Colors.grey,
+fontWeight: FontWeight.bold,
+),
+),
+
+const SizedBox(height: 4),
+
+Text(
+value,
+style: const TextStyle(
+fontSize: 15,
+color: Color(0xFF25213B),
+fontWeight: FontWeight.w600,
+),
+),
+],
+),
+),
+],
+),
+);
+}
+
